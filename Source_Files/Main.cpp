@@ -20,8 +20,8 @@ using namespace std;
 int main()
 {
 	cout << "*****PLEASE NOTE THAT SPACES IN STRINGS ARE NOT ALLOWED! WILL CAUSE ERRORS*****\n\n";
-	File File1;
-	Army Army1;
+	File File1; //file class for later use
+	Army Army1; //first army object, declared in advance of it's call
 	int option;
 	cout << "Load an existing army or create a new one?\n\n1. Load\n2. Create new\n\n";
 	cin >> option;
@@ -42,6 +42,8 @@ int main()
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
+	
+	//uses the selected option to either load an existing army or begin the creation of a new one
 	string army1;
 	if (option == 1)
 	{
@@ -58,9 +60,11 @@ int main()
 		Army1 = *TempArmy;
 	}
 
+	//begins the major menu loop for the first army
 	bool exit = false;
 	while (exit != true) //menu loop
 	{
+		//strings declared for later use
 		string uName;
 		string uDesc;
 
@@ -84,9 +88,10 @@ int main()
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
+		//switch for selecting what to do based on user input
 		switch (selection)
 		{
-		case 1:
+		case 1://adds unit
 			Army1.addUnit();
 			break;
 		case 2: //allows user to select which unit to select, then provides assorted editing options
@@ -113,6 +118,7 @@ int main()
 				}
 			}
 			{
+				//this section is used to select the appropriate unit based on the unit ID the user selected
 				Unit* pTemp = Army1.pUFirst;
 				while (pTemp->pUNext != nullptr) //loop to select appropriate unit
 				{
@@ -135,24 +141,25 @@ int main()
 					int select;
 					cin >> select;
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					//new switch section for deciding what action to perform on the selected unit
 					switch (select)
 					{
-					case 1:
+					case 1://changes the name of the unit
 						pTemp->setName();
 						break;
-					case 2:
+					case 2://changes the point value of a unit
 						Army1.pointTotal = Army1.pointTotal - pTemp->pointValue;
 						pTemp->setPointValue();
 						Army1.pointTotal = Army1.pointTotal + pTemp->pointValue;
 						break;
-					case 3:
+					case 3://adds a model or models to a selected unit
 						cout << "Enter Model Name: ";
 						cin >> uName;
 						cout << "Enter optional description: ";
 						cin >> uDesc;
 						pTemp->addModel(uName, uDesc);
 						break;
-					case 4:
+					case 4://prints out the models within a unit
 						pTemp->displayUnit();
 						break;
 					default:
@@ -162,10 +169,10 @@ int main()
 				}
 			}
 			break;
-		case 3:
+		case 3://dispays the army on screen
 			Army1.displayArmy();
 			break;
-		case 4:
+		case 4://saves  the army to file then exits the loop, moving on to the second army
 			File1.saveArmy(&Army1);
 			exit = true;
 			break;
@@ -327,6 +334,7 @@ int main()
 			}
 		}
 		
+		//creates a game, then iterates through the turns, adding the results of each turn to the total game result string
 		Game Game(&Army1, &Army2);
 		Game.gameResult = Game.turn(1);
 		cout << Game.gameResult;
@@ -338,6 +346,8 @@ int main()
 		cout << Game.gameResult;
 		Game.gameResult = Game.gameResult + Game.turn(5);
 		cout << Game.gameResult;
+		
+		//section for deciding whether or not the game continues
 		cout << "Does the game continue? (1 for yes, 2 for no)\n";
 		cin >> option;
 		flag = true;
@@ -385,6 +395,8 @@ int main()
 				Game.gameResult = Game.gameResult + Game.turn(7);
 			}
 		}
+		
+		//prepares the final report, prints it to screen, then saves it to file
 		Game.gameResult = Game.gameResult + Game.unitReport(&Game.FirstArmy, &Game.SecondArmy);
 		cout << Game.gameResult;
 		File1.saveGame(Game.gameResult, Army1.armyName, Army2.armyName);

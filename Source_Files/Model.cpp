@@ -10,14 +10,16 @@
 #include"Model.h"
 using namespace std;
 
+//simple constructor
 Model::Model(string newName, string desc) : pMNext(nullptr), name(newName), description(desc)
 	{
 
 	}
 
+	//simple constructor
 Model::Model() : pMNext(nullptr)
 {
-
+	//intentionally blank
 }
 
 	Model::~Model()
@@ -25,11 +27,14 @@ Model::Model() : pMNext(nullptr)
 		//intentionally blank
 	}
 
+	
+	//standard getter function
 	string Model::getName()
 	{
 		return name;
 	}
 
+	//standard setter function
 	void Model::setName(string input)
 	{
 		cout << "Enter model name and/or description: ";

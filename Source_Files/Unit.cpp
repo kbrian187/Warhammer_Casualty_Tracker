@@ -18,6 +18,8 @@ Unit::Unit(string newName, string newType, int pv, int id) : pMFirst(nullptr), u
 		//blank
 	}
 
+	
+	//constructor requiring user input. Intended for use w/ a menu system
 Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), casSustained(0)
 	{
 		selectType();
@@ -47,6 +49,8 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 		//intentionally blank
 	}
 
+	
+	//function to add models to a unit. Prompt for model name string handled in advance of calling this function by the caller
 	void Unit::addModel(string paramName, string paramDesc)
 	{
 		int typeSelector = 0;
@@ -73,6 +77,7 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 		}
 	}
 
+	//function for adding a single model to the end  of the linked list
 	void Unit::addUnique(string paramName, string desc)
 	{
 
@@ -93,6 +98,7 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 		unitSize++;
 	}
 
+	//function for adding multiple models to the end of a unit's linked list. Simply calls addUnique multiple times
 	void Unit::addStandard(string paramName, string paramDesc, int number)
 	{
 		int totalNumber = number;
@@ -103,6 +109,7 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 
 	}
 
+	//function that assigns a type to a unit
 	void Unit::selectType()
 	{
 		enum typeSelector{HQ = 1, ELITES, TROOPS, FAST_ATTACK, HEAVY};
@@ -134,26 +141,31 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 			}
 		}
 
+		
+	//unit size getter function
 	int Unit::getUnitSize()
 	{
 		return unitSize;
 	}
 
+	//standard getter function
 	string Unit::getType()
 	{
 		return type;
 	}
-
+	//standard getter function
 	string Unit::getName()
 	{
 		return uName;
 	}
-
+	//standard getter function
 	int Unit::getPointValue()
 	{
 		return pointValue;
 	}
 
+	
+	//function to print the models contained with a unit, if they exist
 	void Unit::printUnit()
 	{
 		if(unitSize > 0)
@@ -171,12 +183,16 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 		}
 	}
 
+	
+	//standard set function
 	void Unit::setName()
 	{
 		cout << "Enter Unit Name: ";
 		cin >> uName;
 	}
 
+	
+	//function used for changing an already set point value
 	void Unit::setPointValue()
 	{
 		cout << "Enter Point Value: ";
@@ -202,6 +218,8 @@ Unit::Unit() : pMFirst(nullptr), unitSize(0), pUNext(nullptr), casInflicted(0), 
 	}
 
 	void Unit::displayUnit()
+	
+	//if the unit contains models, this prints them out to the screen
 	{
 		if (pMFirst == nullptr)
 		{

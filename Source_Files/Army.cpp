@@ -30,6 +30,8 @@ Army::Army() : pULast(nullptr)
 	{
 		//intentionally blank
 	}
+	
+	//function for adding a new unit to the army. This one is intended to be used when adding a unit manually
 	void Army::addUnit()
 	{
 		Unit* pNewUnit = new Unit();
@@ -53,6 +55,8 @@ Army::Army() : pULast(nullptr)
 		pointTotal = pNewUnit->pointValue + pointTotal;
 	}
 
+	
+	//overloaded function for adding a new unit to the army. This one is intended to be used when creating the unit from a file	
 	void Army::addUnit(string newName, string newType, int pv, int id)
 	{
 		Unit* pNewUnit = new Unit(newName, newType, pv, id);
@@ -73,22 +77,22 @@ Army::Army() : pULast(nullptr)
 		pointTotal = pNewUnit->pointValue + pointTotal;
 		armySize = armySize++;
 	}
-	
+	//standard get function
 	string Army::getArmyName()
 	{
 		return armyName;
 	}
-
+	//standard get function
 	int Army::getArmySize()
 	{
 		return armySize;
 	}
-
+	//standard get function
 	Unit* Army::getLast()
 	{
 		return pULast;
 	}
-
+	//prings the army to screen
 	void Army::displayArmy()
 	{
 		if (pUFirst == nullptr)

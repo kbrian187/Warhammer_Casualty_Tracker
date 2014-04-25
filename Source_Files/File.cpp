@@ -17,6 +17,7 @@
 #include"File.h"
 #include"Unit.h"
 
+//constructor for File object
 File::File() : path("C:\\Users\\Brian\\Documents\\Visual Studio 2013\\Projects\\Warhammer Casualty Tracker\\Warhammer Casualty Tracker\\")
 {
 	//blank
@@ -27,6 +28,7 @@ File::~File()
 	//blank
 }
 
+//saves the game result in a single string written to a .txt file
 void File::saveGame(string result, string armyName1, string  armyName2)
 {
 	fstream saveFile(path + armyName1 + "_vs_" + armyName2 + ".txt", ios::out);
@@ -56,18 +58,18 @@ void File::saveArmy(Army* army)
 	}
 	else
 	{
-		saveFile << army->armyName << ' ' << army->pointTotal << endl;
+		saveFile << army->armyName << ' ' << army->pointTotal << endl;//outputs army info at the top of the file
 
 		if (army->pUFirst != nullptr)
 		{
 			Unit* pIterator = army->pUFirst;
-			while (pIterator->pUNext != nullptr)
+			while (pIterator->pUNext != nullptr)//this loops through the units and saves them all line by line
 			{
 				saveFile << pIterator->unitID << ' ' << pIterator->pointValue << ' ' << pIterator->uName << ' ' << pIterator->type << endl;
 				if (pIterator->pMFirst != nullptr)
 				{
 					Model* pMIterator = pIterator->pMFirst;
-					for (int ii = 0; ii < pIterator->unitSize; ii++)
+					for (int ii = 0; ii < pIterator->unitSize; ii++)//this loop goes through all of the models in a unit, saving them with 0s at the beginning for easy loading later. Prints all models before moving on to the next unit
 					{
 						saveFile << nullNum << ' ' << nullNum << ' ' << pMIterator->name << ' ' << pMIterator->description << endl;
 						pMIterator = pMIterator->pMNext;
@@ -91,6 +93,7 @@ void File::saveArmy(Army* army)
 	saveFile.close();
 }
 
+//function to check the formatting ofa  line to determine whether or not its a model
 bool File::isModel(int id)
 {
 	if (id == 0)
@@ -115,10 +118,10 @@ Army* File::loadArmy(string fileName)
 		int tempUnitValue;
 		int tempUnitID;
 
-		loadFile >> tempArmyName >> tempUnitValue;
+		loadFile >> tempArmyName >> tempUnitValue;//loads the army info header at the top of the file
 
-		Army* newArmy = new Army(tempArmyName);
-		while (!loadFile.eof())
+		Army* newArmy = new Army(tempArmyName);//creates an army based on the above info
+		while (!loadFile.eof())//loop to read the file line by line, then create either a unit or a model based on the results of the isModel() check
 		{
 			loadFile >> tempUnitID >> tempUnitValue >> tempName >> tempDesc;
 			if (!isModel(tempUnitID))
